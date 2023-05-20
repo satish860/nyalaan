@@ -5,7 +5,7 @@ export default function Header() {
   return (
     <>
       <Flex
-        bg="white"
+        bg="transparent"
         w="100%"
         p={2}
         verticalAlign="center"

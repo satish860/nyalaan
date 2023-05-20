@@ -53,7 +53,7 @@ export default function Hero() {
             </Text>
           </Heading>
           <Text color={"gray.500"}>
-            Introducing Speakwise! Whether it's capturing lectures, interviews,
+            Introducing Speakwise! Whether it&apos;s capturing lectures, interviews,
             or brainstorming sessions, Speakwise empowers you to effortlessly
             transcribe your ideas and insights with speed and accuracy. Break
             free from the confines of audio and unlock the power of your words
