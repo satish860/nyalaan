@@ -1,10 +1,18 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { NextRequest, NextResponse } from "next/server";
+import { getAuth } from "@clerk/nextjs/server";
+import { clerkClient, currentUser } from '@clerk/nextjs';
 
 export const config = {
   runtime: "edge",
 };
 
 export default async (request: NextRequest) => {
+
+  const { userId } = getAuth(request);
+  const user = await clerkClient.users.getUser(userId??"");
+
+  console.log(user.emailAddresses[0].emailAddress);
 
   const { url } = await request.json();
 
