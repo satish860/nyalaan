@@ -17,6 +17,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const { pathname } = useRouter();
 
   const isPublicPage = publicPages.includes(pathname);
+
   return (
     <>
       <Head>
@@ -35,7 +36,10 @@ export default function App({ Component, pageProps }: AppProps) {
               </ChakraProvider>
             </SignedIn>
             <SignedOut>
-              <RedirectToSignIn afterSignInUrl="/transcription" redirectUrl="/" />
+              <RedirectToSignIn
+                afterSignInUrl="/transcription"
+                redirectUrl="/"
+              />
             </SignedOut>
           </>
         )}

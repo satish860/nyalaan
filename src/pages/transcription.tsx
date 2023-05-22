@@ -46,7 +46,6 @@ export default function Transcription() {
         alignItems="center"
         justifyContent="center"
         height="100vh"
-        bgGradient="linear(red.100 0%, orange.100 25%, yellow.100 50%)"
         maxH="auto"
       >
         <Box
@@ -71,6 +70,7 @@ export default function Transcription() {
             color="black"
             border="1px solid black"
             mt="10px"
+            justifyContent="center"
           >
             Transcribe
           </Button>
