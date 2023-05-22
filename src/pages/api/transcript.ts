@@ -5,6 +5,7 @@ export const config = {
 };
 
 export default async (request: NextRequest) => {
+  console.log("here")
   const { url } = await request.json();
 
   const response = await fetch("https://apps.beam.cloud/rk6nl", {
@@ -22,7 +23,7 @@ export default async (request: NextRequest) => {
   const text = await response.json();
 
   return NextResponse.json({
-    info: text,
+    text,
   });
 };
 
