@@ -1,14 +1,14 @@
 import { Box, Flex, Progress } from "@chakra-ui/react";
 import Header from "../components/Header";
 import { GetStaticProps, GetStaticPropsContext } from "next";
-
+import { useEffect } from "react";
 interface ResultProps {
   data: any;
 }
 
 export default function Result({ data }: ResultProps) {
   const videoId = data?.response?.videoId;
-
+ 
   return (
     <>
       <Header />
@@ -34,9 +34,8 @@ export default function Result({ data }: ResultProps) {
                     Math.floor(Number(data.response.lengthSeconds) * 0.0025) +
                     " minutes."}
               </p>
-              <Progress size='xs' isIndeterminate />
+              <Progress size="xs" isIndeterminate />
             </Box>
-            
           </>
         )}
 
@@ -51,6 +50,7 @@ export default function Result({ data }: ResultProps) {
           )}
         </Box>
       </Flex>
+      
     </>
   );
 }
@@ -80,11 +80,25 @@ export const getStaticProps: GetStaticProps<ResultProps> = async ({
 
   const data = await response.json();
 
+  const status = await fetch("https://apps.beam.cloud/ya8en", {
+    method: "POST",
+    headers: {
+      "Accept-Encoding": "gzip, deflate",
+      Authorization: process.env.INFO_API_KEY ?? " ",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      url: result,
+    }),
+  });
+  console.log(status.status);
+
   return {
     props: {
       data,
     },
   };
+
 };
 
 export async function getStaticPaths() {
