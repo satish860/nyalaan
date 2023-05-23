@@ -26,6 +26,11 @@ export default async (request: NextRequest) => {
   });
 
   const text = await response.json();
+
+
+  const { userId } = getAuth(request);
+  const user = await clerkClient.users.getUser(userId ?? "");
+  console.log(user.emailAddresses[0].emailAddress);
   const incoming_record = text.response;
   const record = await xata.db.Dashboard.create({
     user_id: userId,
@@ -35,11 +40,6 @@ export default async (request: NextRequest) => {
     author: incoming_record.author,
     url: url,
   });
-
-  const { userId } = getAuth(request);
-  const user = await clerkClient.users.getUser(userId ?? "");
-
-  console.log(user.emailAddresses[0].emailAddress);
 
   return NextResponse.json({
     info: text,
