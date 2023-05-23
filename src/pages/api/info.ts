@@ -2,6 +2,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAuth } from "@clerk/nextjs/server";
 import { clerkClient, currentUser } from '@clerk/nextjs';
+import { getXataClient } from "../../xata";
+
+const xata = getXataClient();
 
 export const config = {
   runtime: "edge",
@@ -29,6 +32,15 @@ export default async (request: NextRequest) => {
   });
 
   const text = await response.json();
+  const incoming_record = text.response;
+  const record = await xata.db.Dashboard.create({
+    user_id: userId,
+    video_name: incoming_record.videoId,
+    title: incoming_record.title,
+    thumbnail: JSON.stringify(incoming_record.thumbnail),
+    author: incoming_record.author,
+    url: url,
+  });
 
   return NextResponse.json({
     info: text,
