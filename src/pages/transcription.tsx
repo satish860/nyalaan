@@ -2,6 +2,7 @@ import Header from "./components/Header";
 import React, { useState } from "react";
 import { Box, Input, Button, Flex } from "@chakra-ui/react";
 import axios from "axios";
+import Link from "next/link";
 
 export default function Transcription() {
   const [url, setUrl] = useState("");
@@ -23,18 +24,18 @@ export default function Transcription() {
   };
 
   const handleButtonClick = async () => {
-    const response = await axios.post("api/info", {
-      url: url,
-    });
-    console.log("Calling 2");
-    const transcriptResponse = await axios.post("api/transcript", {
-      url: url,
-    });
-    const videoId = response.data.info.response.videoId;
-    setVideoUrl(`https://www.youtube.com/embed/${videoId}`);
-    setVideoTime(response.data.info.response.lengthSeconds);
-    console.log(transcriptResponse.data.text.response);
-    setTranscript(transcriptResponse.data.text.response);
+    // const response = await axios.post("api/info", {
+    //   url: url,
+    // });
+    // console.log("Calling 2");
+    // const transcriptResponse = await axios.post("api/transcript", {
+    //   url: url,
+    // });
+    // const videoId = response.data.info.response.videoId;
+    // setVideoUrl(`https://www.youtube.com/embed/${videoId}`);
+    // setVideoTime(response.data.info.response.lengthSeconds);
+    // console.log(transcriptResponse.data.text.response);
+    // setTranscript(transcriptResponse.data.text.response);
   };
 
   return (
@@ -64,16 +65,18 @@ export default function Transcription() {
             color="black"
             border="1px solid black"
           />
-          <Button
-            onClick={handleButtonClick}
-            colorScheme="transparent"
-            color="black"
-            border="1px solid black"
-            mt="10px"
-            justifyContent="center"
-          >
-            Transcribe
-          </Button>
+          <Link href={`/result/${encodeURIComponent(url)}`}>
+            <Button
+              onClick={handleButtonClick}
+              colorScheme="transparent"
+              color="black"
+              border="1px solid black"
+              mt="10px"
+              justifyContent="center"
+            >
+              Transcribe
+            </Button>
+          </Link>
           <Box
             display="flex"
             flexDirection="column"
@@ -129,3 +132,4 @@ export default function Transcription() {
     </>
   );
 }
+
