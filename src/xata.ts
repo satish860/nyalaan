@@ -8,17 +8,6 @@ import type {
 
 const tables = [
   {
-    name: "dev-playground",
-    columns: [
-      { name: "user_email", type: "email" },
-      { name: "user_id", type: "string" },
-      { name: "transcription", type: "text" },
-      { name: "youtube_url", type: "string" },
-      { name: "Info", type: "string" },
-      { name: "video_title", type: "string" },
-    ],
-  },
-  {
     name: "Dashboard",
     columns: [
       { name: "user_id", type: "string" },
@@ -29,20 +18,28 @@ const tables = [
       { name: "url", type: "string" },
     ],
   },
+  {
+    name: "VideoRecord",
+    columns: [
+      { name: "VideoUrl", type: "string" },
+      { name: "transcription", type: "text" },
+      { name: "transcriptionurl", type: "text" },
+    ],
+  },
 ] as const;
 
 export type SchemaTables = typeof tables;
 export type InferredTypes = SchemaInference<SchemaTables>;
 
-export type DevPlayground = InferredTypes["dev-playground"];
-export type DevPlaygroundRecord = DevPlayground & XataRecord;
-
 export type Dashboard = InferredTypes["Dashboard"];
 export type DashboardRecord = Dashboard & XataRecord;
 
+export type VideoRecord = InferredTypes["VideoRecord"];
+export type VideoRecordRecord = VideoRecord & XataRecord;
+
 export type DatabaseSchema = {
-  "dev-playground": DevPlaygroundRecord;
   Dashboard: DashboardRecord;
+  VideoRecord: VideoRecordRecord;
 };
 
 const DatabaseClient = buildClient();
