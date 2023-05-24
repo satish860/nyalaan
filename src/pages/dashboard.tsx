@@ -6,29 +6,26 @@ import {
   Stack,
   Heading,
   Image,
-  Text,
   Divider,
   Box,
 } from "@chakra-ui/react";
+import { getAuth } from "@clerk/nextjs/server";
+import { GetServerSideProps } from "next";
+import { Dashboard, DashboardRecord, getXataClient } from "../xata";
 
 interface BoxType {
-  imageSrc: string;
-  imageAlt: string;
+  Thumbnail: string;
   title: string;
   channel: string;
+  video_id: string;
 }
+const xata = getXataClient();
 
-export default function Dashboard() {
-  const boxes: BoxType[] = [
-    {
-      imageSrc:
-        "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
-      imageAlt: "Green double couch with wooden legs",
-      title: "Title",
-      channel: "Channel Name",
-    },
-  ];
-
+export default function Dashboard({
+  initialBoxes,
+}: {
+  initialBoxes: BoxType[];
+}) {
   return (
     <>
       <Header />
@@ -61,38 +58,21 @@ export default function Dashboard() {
             <Divider />
           </Card>
         </Box>
-        <Box p="6">
-          <Card maxW="xs">
-            <CardBody>
-              <Image
-                src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-                alt="Green double couch with wooden legs"
-                borderRadius="lg"
-                height="200px"
-                width="300px"
-                objectFit="cover"
-              />
-              <Stack mt="2" spacing="">
-                <Heading size="md">Title | Channel Name</Heading>
-              </Stack>
-            </CardBody>
-            <Divider />
-          </Card>
-        </Box>
-        {boxes.map((box, index) => (
+        {initialBoxes.map((box, index) => (
           <Box p="6" key={index}>
             <Card maxW="xs">
               <CardBody>
                 <Image
-                  src={box.imageSrc}
-                  alt={box.imageAlt}
+                  src={box.Thumbnail}
                   borderRadius="lg"
                   height="200px"
                   width="300px"
                   objectFit="cover"
                 />
                 <Stack mt="2" spacing="">
-                  <Heading size="md">{box.title} | {box.channel}</Heading>
+                  <Heading size="md">
+                    {box.title} | {box.channel}
+                  </Heading>
                 </Stack>
               </CardBody>
               <Divider />
@@ -103,3 +83,32 @@ export default function Dashboard() {
     </>
   );
 }
+
+export interface MyServerSideProps {
+  initialBoxes: BoxType[];
+}
+
+export const getServerSideProps: GetServerSideProps<
+  MyServerSideProps
+> = async ({ req }) => {
+  const { userId } = getAuth(req);
+
+  const records = await xata.db.Dashboard.filter(
+    "user_id",
+    String(userId)
+  ).getMany();
+  const data = records.toArray();
+
+  const initialBoxes = data.map((item:  DashboardRecord) => ({
+    title: item.title || "",
+    channel: item.channel_name || "",
+    Thumbnail: item.Thumbnail || "",
+    video_id: item.video_id || "",
+  }));
+
+  return {
+    props: {
+      initialBoxes,
+    },
+  };
+};

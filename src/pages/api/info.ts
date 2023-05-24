@@ -30,14 +30,14 @@ export default async (request: NextRequest) => {
   const user = await clerkClient.users.getUser(userId ?? "");
   console.log(user.emailAddresses[0].emailAddress);
   const incoming_record = text.response;
-  const record = await xata.db.Dashboard.create({
-    user_id: userId,
-    video_name: incoming_record.videoId,
-    title: incoming_record.title,
-    thumbnail: JSON.stringify(incoming_record.thumbnail),
-    author: incoming_record.author,
-    url: url,
-  });
+  // const record = await xata.db.Dashboard.create({
+  //   user_id: userId,
+  //   video_name: incoming_record.videoId,
+  //   title: incoming_record.title,
+  //   thumbnail: JSON.stringify(incoming_record.thumbnail),
+  //   author: incoming_record.author,
+  //   url: url,
+  // });
 
   return NextResponse.json({
     info: text,
