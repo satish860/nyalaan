@@ -24,6 +24,7 @@ const tables = [
       { name: "VideoUrl", type: "string" },
       { name: "transcription", type: "text" },
       { name: "transcriptionurl", type: "text" },
+      { name: "video_id", type: "string" },
     ],
   },
 ] as const;
