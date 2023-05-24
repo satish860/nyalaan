@@ -54,7 +54,7 @@ export default function Hero() {
             direction={{ base: "column", sm: "row" }}
           >
             <SignedIn>
-              <Link href="/transcription">
+              <Link href="/dashboard">
                 <Button
                   rounded={"full"}
                   size={"lg"}
@@ -64,7 +64,7 @@ export default function Hero() {
                   bg={"green.400"}
                   _hover={{ bg: "green.500" }}
                 >
-                  Transcription
+                  Get Started
                 </Button>
               </Link>
             </SignedIn>
@@ -80,7 +80,7 @@ export default function Hero() {
                   bg={"green.400"}
                   _hover={{ bg: "green.500" }}
                 >
-                  Transcription
+                  Get Started
                 </Button>
               </Link>
             </SignedOut>
